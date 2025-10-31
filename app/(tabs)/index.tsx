@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { AlertCircle, Phone, Heart, Activity } from 'lucide-react-native';
+import { AlertCircle, Phone, Heart, Activity, Video, MessageCircle } from 'lucide-react-native';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -18,7 +20,7 @@ export default function HomeScreen() {
         <Text style={styles.sectionTitle}>Quick Actions</Text>
 
         <View style={styles.actionGrid}>
-          <TouchableOpacity style={styles.actionCard}>
+          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/video-call')}>
             <View style={styles.actionIcon}>
               <Video size={28} color="#2563eb" />
             </View>
@@ -26,7 +28,7 @@ export default function HomeScreen() {
             <Text style={styles.actionSubtitle}>Video consultation</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionCard}>
+          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/assistant')}>
             <View style={styles.actionIcon}>
               <MessageCircle size={28} color="#2563eb" />
             </View>
@@ -34,7 +36,7 @@ export default function HomeScreen() {
             <Text style={styles.actionSubtitle}>Voice help</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionCard}>
+          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/activities')}>
             <View style={styles.actionIcon}>
               <Activity size={28} color="#2563eb" />
             </View>
@@ -42,7 +44,7 @@ export default function HomeScreen() {
             <Text style={styles.actionSubtitle}>5 activities</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.actionCard}>
+          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/profile')}>
             <View style={styles.actionIcon}>
               <Heart size={28} color="#2563eb" />
             </View>

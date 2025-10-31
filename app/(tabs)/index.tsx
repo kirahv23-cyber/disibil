@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { AlertCircle, Phone, Heart, Activity, Video, MessageCircle } from 'lucide-react-native';
+import { AlertCircle, Phone, Heart, Activity } from 'lucide-react-native';
 
 export default function HomeScreen() {
   return (

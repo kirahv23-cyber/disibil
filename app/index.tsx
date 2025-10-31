@@ -1,10 +1,25 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
+import { useAuth } from '@/contexts/AuthContext';
 
-export default function HomeScreen() {
+export default function IndexScreen() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      if (user) {
+        router.replace('/(tabs)');
+      } else {
+        router.replace('/(auth)/login');
+      }
+    }
+  }, [user, loading]);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>AccessCare</Text>
-      <Text style={styles.subtitle}>Comprehensive Disability Support</Text>
+      <ActivityIndicator size="large" color="#2563eb" />
     </View>
   );
 }
@@ -14,15 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
+    backgroundColor: '#f9fafb',
   },
 });

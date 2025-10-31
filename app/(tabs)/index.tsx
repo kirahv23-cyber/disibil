@@ -1,127 +1,230 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { AlertCircle, Phone, Heart, Activity, Video, MessageCircle } from 'lucide-react-native';
+import { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, AccessibilityInfo } from 'react-native';
+import { Mic, Camera, CheckSquare, Navigation, AlertTriangle, Volume2, Gamepad2 } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [sosActive, setSosActive] = useState(false);
+
+  const handleSOSPress = async () => {
+    setSosActive(!sosActive);
+    await AccessibilityInfo.announceForAccessibility(
+      sosActive ? 'Emergency SOS deactivated' : 'Emergency SOS activated. Long press to trigger emergency alert.'
+    );
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>AccessCare</Text>
-        <Text style={styles.subtitle}>Your Daily Support Hub</Text>
-      </View>
+    <View style={styles.container}>
+      <ScrollView style={styles.content}>
+        <View style={styles.header}>
+          <Text style={styles.title}>AssistWay</Text>
+          <Text style={styles.subtitle}>Accessibility-First Assistant</Text>
+        </View>
 
-      <TouchableOpacity style={styles.sosButton}>
-        <AlertCircle size={32} color="#fff" />
-        <Text style={styles.sosText}>Emergency SOS</Text>
+        <View style={styles.quickActionsGrid}>
+          <TouchableOpacity
+            style={styles.quickTile}
+            onPress={() => router.push('/(tabs)/assistant')}
+            accessibilityLabel="AI Speak - Voice commands"
+            accessibilityRole="button"
+          >
+            <Mic size={40} color="#fff" />
+            <Text style={styles.tileName}>AI Speak</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.quickTile, { backgroundColor: '#0891b2' }]}
+            onPress={() => router.push('/camera-mode')}
+            accessibilityLabel="Camera - Detect objects and read descriptions"
+            accessibilityRole="button"
+          >
+            <Camera size={40} color="#fff" />
+            <Text style={styles.tileName}>Camera</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickTile}
+            onPress={() => router.push('/(tabs)/activities')}
+            accessibilityLabel="Add Task - Create new task"
+            accessibilityRole="button"
+          >
+            <CheckSquare size={40} color="#fff" />
+            <Text style={styles.tileName}>Add Task</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.quickTile}
+            onPress={() => router.push('/navigation')}
+            accessibilityLabel="Navigation - Voice guided directions"
+            accessibilityRole="button"
+          >
+            <Navigation size={40} color="#fff" />
+            <Text style={styles.tileName}>Navigate</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Your Activities Today</Text>
+          <View style={styles.activityCard}>
+            <View style={styles.activityTime}>
+              <Text style={styles.timeText}>10:00 AM</Text>
+            </View>
+            <View style={styles.activityDetails}>
+              <Text style={styles.activityTitle}>Physical Therapy</Text>
+              <Text style={styles.activityDescription}>Stretching exercises</Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Upcoming Doctor Appointment</Text>
+          <View style={styles.appointmentCard}>
+            <Text style={styles.appointmentDoctor}>Dr. Smith</Text>
+            <Text style={styles.appointmentTime}>Tomorrow at 2:00 PM</Text>
+            <TouchableOpacity
+              style={styles.joinButton}
+              onPress={() => router.push('/(tabs)/video-call')}
+              accessibilityLabel="Join video call"
+            >
+              <Text style={styles.joinButtonText}>Join Call</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>More Features</Text>
+          <View style={styles.featureGrid}>
+            <TouchableOpacity
+              style={[styles.featureTile, { backgroundColor: '#d946ef' }]}
+              onPress={() => router.push('/tts-editor')}
+              accessibilityLabel="Text to Speech Editor"
+              accessibilityRole="button"
+            >
+              <Volume2 size={32} color="#fff" />
+              <Text style={styles.tileNameSmall}>TTS Editor</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.featureTile, { backgroundColor: '#f59e0b' }]}
+              onPress={() => router.push('/tts-grid')}
+              accessibilityLabel="Quick Speech Phrases"
+              accessibilityRole="button"
+            >
+              <Volume2 size={32} color="#fff" />
+              <Text style={styles.tileNameSmall}>Phrases</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.featureTile, { backgroundColor: '#8b5cf6' }]}
+              onPress={() => router.push('/games')}
+              accessibilityLabel="Accessible Games"
+              accessibilityRole="button"
+            >
+              <Gamepad2 size={32} color="#fff" />
+              <Text style={styles.tileNameSmall}>Games</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+
+      <TouchableOpacity
+        style={[styles.sosButton, sosActive && styles.sosButtonActive]}
+        onPress={handleSOSPress}
+        onLongPress={handleSOSPress}
+        accessibilityLabel="Emergency SOS Button"
+        accessibilityRole="button"
+        accessibilityHint="Long press to send emergency alert with GPS location"
+      >
+        <AlertTriangle size={36} color="#fff" />
+        <Text style={styles.sosText}>SOS</Text>
       </TouchableOpacity>
-
-      <View style={styles.quickActions}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
-
-        <View style={styles.actionGrid}>
-          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/video-call')}>
-            <View style={styles.actionIcon}>
-              <Video size={28} color="#2563eb" />
-            </View>
-            <Text style={styles.actionTitle}>Call Doctor</Text>
-            <Text style={styles.actionSubtitle}>Video consultation</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/assistant')}>
-            <View style={styles.actionIcon}>
-              <MessageCircle size={28} color="#2563eb" />
-            </View>
-            <Text style={styles.actionTitle}>AI Assistant</Text>
-            <Text style={styles.actionSubtitle}>Voice help</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/activities')}>
-            <View style={styles.actionIcon}>
-              <Activity size={28} color="#2563eb" />
-            </View>
-            <Text style={styles.actionTitle}>Today's Tasks</Text>
-            <Text style={styles.actionSubtitle}>5 activities</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(tabs)/profile')}>
-            <View style={styles.actionIcon}>
-              <Heart size={28} color="#2563eb" />
-            </View>
-            <Text style={styles.actionTitle}>Health Log</Text>
-            <Text style={styles.actionSubtitle}>Track vitals</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Upcoming Activities</Text>
-        <View style={styles.activityCard}>
-          <View style={styles.activityTime}>
-            <Text style={styles.timeText}>10:00 AM</Text>
-          </View>
-          <View style={styles.activityDetails}>
-            <Text style={styles.activityTitle}>Physical Therapy</Text>
-            <Text style={styles.activityDescription}>Stretching exercises</Text>
-          </View>
-        </View>
-        <View style={styles.activityCard}>
-          <View style={styles.activityTime}>
-            <Text style={styles.timeText}>2:00 PM</Text>
-          </View>
-          <View style={styles.activityDetails}>
-            <Text style={styles.activityTitle}>Medication Reminder</Text>
-            <Text style={styles.activityDescription}>Take afternoon meds</Text>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#f0f4f8',
+  },
+  content: {
+    flex: 1,
+    paddingBottom: 120,
   },
   header: {
-    backgroundColor: '#2563eb',
-    padding: 24,
+    backgroundColor: '#1e40af',
     paddingTop: 60,
-    paddingBottom: 32,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
   },
   title: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#dbeafe',
+    color: '#bfdbfe',
   },
-  sosButton: {
-    backgroundColor: '#dc2626',
-    margin: 16,
-    padding: 20,
-    borderRadius: 16,
+  quickActionsGrid: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 16,
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  quickTile: {
+    width: '48%',
+    backgroundColor: '#1e40af',
+    borderRadius: 16,
+    padding: 24,
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: 140,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 4,
+    elevation: 3,
   },
-  sosText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  tileName: {
     color: '#fff',
-    marginLeft: 12,
+    fontSize: 16,
+    fontWeight: '600',
+    marginTop: 12,
+    textAlign: 'center',
   },
-  quickActions: {
+  featureGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    justifyContent: 'space-between',
+  },
+  featureTile: {
+    width: '31%',
+    borderRadius: 12,
     padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  tileNameSmall: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '600',
+    marginTop: 8,
+    textAlign: 'center',
+  },
+  section: {
+    paddingHorizontal: 16,
+    marginBottom: 24,
   },
   sectionTitle: {
     fontSize: 20,
@@ -129,49 +232,10 @@ const styles = StyleSheet.create({
     color: '#111827',
     marginBottom: 16,
   },
-  actionGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  actionCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    width: '48%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  actionIcon: {
-    width: 48,
-    height: 48,
-    backgroundColor: '#eff6ff',
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  actionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#111827',
-    marginBottom: 4,
-  },
-  actionSubtitle: {
-    fontSize: 13,
-    color: '#6b7280',
-  },
-  section: {
-    padding: 16,
-  },
   activityCard: {
     backgroundColor: '#fff',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: '#000',
@@ -181,27 +245,88 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   activityTime: {
-    backgroundColor: '#eff6ff',
+    backgroundColor: '#dbeafe',
     borderRadius: 8,
-    padding: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     marginRight: 16,
+    minWidth: 80,
   },
   timeText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
-    color: '#2563eb',
+    color: '#1e40af',
   },
   activityDetails: {
     flex: 1,
   },
   activityTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#111827',
     marginBottom: 4,
   },
   activityDescription: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#6b7280',
+  },
+  appointmentCard: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  appointmentDoctor: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#111827',
+    marginBottom: 8,
+  },
+  appointmentTime: {
+    fontSize: 15,
+    color: '#6b7280',
+    marginBottom: 16,
+  },
+  joinButton: {
+    backgroundColor: '#1e40af',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+  },
+  joinButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  sosButton: {
+    position: 'absolute',
+    bottom: 30,
+    right: 20,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#dc2626',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  sosButtonActive: {
+    backgroundColor: '#991b1b',
+    shadowOpacity: 0.5,
+  },
+  sosText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginTop: 4,
   },
 });

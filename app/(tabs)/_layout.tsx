@@ -1,20 +1,20 @@
 import { Tabs } from 'expo-router';
-import { Home, Video, MessageCircle, Calendar, User } from 'lucide-react-native';
+import { Home, Video, Mic, Calendar, User } from 'lucide-react-native';
 
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#2563eb',
-        tabBarInactiveTintColor: '#6b7280',
+        tabBarActiveTintColor: '#1e40af',
+        tabBarInactiveTintColor: '#9ca3af',
         tabBarStyle: {
           backgroundColor: '#ffffff',
           borderTopWidth: 1,
           borderTopColor: '#e5e7eb',
           paddingBottom: 8,
           paddingTop: 8,
-          height: 60,
+          height: 64,
         },
       }}>
       <Tabs.Screen
@@ -29,7 +29,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="video-call"
         options={{
-          title: 'Video Call',
+          title: 'Video',
           tabBarIcon: ({ size, color }) => (
             <Video size={size} color={color} />
           ),
@@ -38,16 +38,16 @@ export default function TabLayout() {
       <Tabs.Screen
         name="assistant"
         options={{
-          title: 'AI Assistant',
+          title: 'Assistant',
           tabBarIcon: ({ size, color }) => (
-            <MessageCircle size={size} color={color} />
+            <Mic size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="activities"
         options={{
-          title: 'Activities',
+          title: 'Tasks',
           tabBarIcon: ({ size, color }) => (
             <Calendar size={size} color={color} />
           ),

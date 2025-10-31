@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9fafb',
   },
   header: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#1e40af',
     padding: 24,
     paddingTop: 60,
     paddingBottom: 24,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
-    color: '#dbeafe',
+    color: '#bfdbfe',
   },
   content: {
     flex: 1,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#2563eb',
+    backgroundColor: '#1e40af',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 8,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   messageBubbleUser: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#1e40af',
     borderRadius: 16,
     borderTopRightRadius: 4,
     padding: 12,
@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
     color: '#374151',
     marginLeft: 12,
     flex: 1,
-  },
+  }
+  ,
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: '#2563eb',
+    backgroundColor: '#1e40af',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
